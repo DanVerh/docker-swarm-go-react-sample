@@ -3,7 +3,6 @@ services:
 
   db:
     image: postgres:alpine
-    restart: always
     environment:
       - POSTGRES_USER=postgres
       - POSTGRES_PASSWORD=admin
@@ -17,24 +16,46 @@ services:
       replicas: 1
 
   backend:
-    build: ./backend
+    image: danverh/sample-go:latest
     ports:
       - 8080:8080
-    restart: always
     depends_on:
       - db
     deploy:
       mode: replicated
       replicas: 3
       restart_policy:
-        condition: always
+        condition: on-failure
         delay: 10s
         max_attempts: 3
+      update_config:
+        parallelism: 2 # only 2 containers is updated at a time
+        failure_action: rollback # rollback updates in case of failure
+        order: start-first # start a new task before an old one is stopped
+      rollback_config:
+        parallelism: 2
+        failure_action: continue
+
+
 
   frontend:
-    build: ./frontend
+    image: danverh/sample-react:latest
     ports:
       - 80:80
+    deploy:
+      mode: replicated
+      replicas: 3
+      restart_policy:
+        condition: on-failure
+        delay: 10s
+        max_attempts: 3
+      update_config:
+        parallelism: 2 # only 2 containers is updated at a time
+        failure_action: rollback # rollback updates in case of failure
+        order: start-first # start a new task before an old one is stopped
+      rollback_config:
+        parallelism: 2
+        failure_action: continue
 
 #volumes:
   #db-data:
