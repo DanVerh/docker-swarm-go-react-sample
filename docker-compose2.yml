@@ -1,0 +1,24 @@
+version: '3'
+services:
+
+
+  backend:
+      image: danverh/sample-go:latest
+      ports:
+        - 8081:8080
+      depends_on:
+        - db
+      deploy:
+        mode: replicated
+        replicas: 2
+        restart_policy:
+          condition: on-failure
+          delay: 10s
+          max_attempts: 3
+        update_config:
+          parallelism: 2 # only 2 containers is updated at a time
+          failure_action: rollback # rollback updates in case of failure
+          order: start-first # start a new task before an old one is stopped
+        rollback_config:
+          parallelism: 2
+          failure_action: continue
