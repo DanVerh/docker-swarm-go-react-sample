@@ -16,7 +16,7 @@ services:
       replicas: 1
 
   backend:
-    image: danverh/sample-go:latest
+    image: backend:latest
     ports:
       - 8080:8080
     depends_on:
@@ -39,7 +39,7 @@ services:
 
 
   frontend:
-    image: danverh/sample-react:latest
+    image: frontend:latest
     ports:
       - 80:80
     deploy:

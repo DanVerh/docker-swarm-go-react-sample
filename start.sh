@@ -1,10 +1,8 @@
 cd ./backend
-docker image build -t danverh/sample-go:latest --rm .
-docker image push danverh/sample-go:latest
+docker image build -t backend:latest --rm .
 
 cd ../frontend
-docker image build -t danverh/sample-react:latest --rm .
-docker image push danverh/sample-react:latest
+docker image build -t frontend:latest --rm .
 cd ..
 
-docker stack deploy --compose-file docker-compose.yml app
+docker stack deploy --compose-file app.yml app
