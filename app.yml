@@ -29,7 +29,7 @@ services:
         delay: 10s
         max_attempts: 3
       update_config:
-        parallelism: 2 # only 2 containers is updated at a time
+        parallelism: 1 # only 1 container is updated at a time
         failure_action: rollback # rollback updates in case of failure
         order: start-first # start a new task before an old one is stopped
       rollback_config:
@@ -44,13 +44,13 @@ services:
       - 80:80
     deploy:
       mode: replicated
-      replicas: 3
+      replicas: 2
       restart_policy:
         condition: on-failure
         delay: 10s
         max_attempts: 3
       update_config:
-        parallelism: 2 # only 2 containers is updated at a time
+        parallelism: 1 # only 1 container is updated at a time
         failure_action: rollback # rollback updates in case of failure
         order: start-first # start a new task before an old one is stopped
       rollback_config:
