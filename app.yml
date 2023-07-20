@@ -19,7 +19,7 @@ services:
           - "node.role == manager"
 
   backend:
-    image: backend:latest
+    image: danverh/swarm-backend:latest
     ports:
       - 8080:8080
     depends_on:
@@ -42,7 +42,7 @@ services:
 
 
   frontend:
-    image: frontend:latest
+    image: danverh/swarm-frontend:latest
     ports:
       - 80:80
     deploy:
