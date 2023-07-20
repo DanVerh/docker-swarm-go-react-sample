@@ -10,7 +10,7 @@ services:
       - 5432
     volumes: 
       - ./db/dbinit.sql:/docker-entrypoint-initdb.d/create_tables.sql
-      #- db-data:/var/lib/postgresql/data
+      - db-data:/var/lib/postgresql/data
     deploy:
       mode: replicated
       replicas: 1
@@ -57,5 +57,5 @@ services:
         parallelism: 2
         failure_action: continue
 
-#volumes:
-  #db-data:
+volumes:
+  db-data:
